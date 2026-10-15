@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>食事動作評価｜画面見本</title>
+<style>
+:root{
+  --ink:#243247; --muted:#68778b; --line:#dce4ed; --bg:#f4f7fb;
+  --primary:#315f91; --primary-soft:#eaf2fb; --white:#fff; --green:#34765d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Yu Gothic UI","Meiryo",sans-serif;line-height:1.6}
+header{background:#fff;border-bottom:1px solid var(--line);padding:18px 28px;position:sticky;top:0;z-index:5}
+.header-inner{max-width:1180px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-weight:800;font-size:19px;letter-spacing:.02em}
+.subbrand{font-size:12px;color:var(--muted);margin-top:2px}
+.demo{font-size:12px;font-weight:700;color:#8a5c1c;background:#fff4df;border:1px solid #f0d9ae;padding:6px 10px;border-radius:999px;white-space:nowrap}
+.layout{max-width:1180px;margin:26px auto;padding:0 20px;display:grid;grid-template-columns:245px minmax(0,1fr);gap:24px}
+nav{align-self:start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;position:sticky;top:100px}
+.nav-title{font-size:12px;font-weight:800;color:var(--muted);padding:5px 10px 10px}
+nav button{display:block;width:100%;text-align:left;border:0;background:transparent;color:var(--ink);padding:10px 11px;border-radius:9px;cursor:pointer;font:inherit;font-size:14px;margin:2px 0}
+nav button:hover{background:#f2f6fb}
+nav button.active{background:var(--primary-soft);color:var(--primary);font-weight:800}
+.nav-group{font-size:11px;color:#8a96a7;padding:12px 10px 3px;font-weight:800;letter-spacing:.08em}
+main{min-width:0}
+.intro{margin-bottom:18px}
+.eyebrow{font-size:12px;color:var(--primary);font-weight:800;letter-spacing:.08em}
+h1{font-size:26px;margin:4px 0 6px;line-height:1.35}
+.intro p{margin:0;color:var(--muted);font-size:14px}
+.progress-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);padding:14px 17px;border-radius:13px;margin:18px 0}
+.progress-label{font-size:13px;font-weight:700;white-space:nowrap}
+.progress-track{height:7px;background:#e8edf3;border-radius:99px;flex:1;overflow:hidden}
+.progress-fill{height:100%;width:0;background:var(--green);border-radius:99px;transition:width .2s}
+.progress-number{font-size:13px;color:var(--muted);white-space:nowrap}
+.section{display:none}
+.section.active{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 2px 8px rgba(30,50,80,.025)}
+.card h2{font-size:19px;margin:0 0 5px}
+.card-desc{color:var(--muted);font-size:13px;margin:0 0 18px}
+.field{border-top:1px solid #edf1f5;padding:17px 0}
+.field:first-of-type{border-top:0;padding-top:0}
+.field-title{font-size:14px;font-weight:800;margin-bottom:10px}
+.required{font-size:10px;background:#e8f3ee;color:#2f6b53;padding:3px 7px;border-radius:5px;margin-left:7px;vertical-align:2px}
+.optional{font-size:10px;background:#f1f3f6;color:#68778b;padding:3px 7px;border-radius:5px;margin-left:7px;vertical-align:2px}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.choice{display:flex;align-items:flex-start;gap:9px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:13px;background:#fff;min-height:44px}
+.choice:hover{border-color:#9bb7d5;background:#fafdff}
+.choice:has(input:checked){border-color:var(--primary);background:var(--primary-soft)}
+.choice input{margin-top:4px;accent-color:var(--primary);flex:0 0 auto}
+.choice-text{display:block}
+.choice-text strong{display:block;font-size:13px}
+.choice-text small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.note{font-size:12px;color:var(--muted);background:#f7f9fc;padding:11px 13px;border-radius:9px;margin-top:12px}
+.text-input{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font:inherit;font-size:13px}
+.actions{display:flex;justify-content:space-between;gap:10px;margin:20px 0 30px}
+.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;font:inherit;font-size:13px}
+.btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn:disabled{opacity:.35;cursor:default}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:0 15px 30px}
+.summary{background:#f8fbff;border:1px dashed #b8cbe0;padding:14px;border-radius:11px;font-size:13px}
+@media(max-width:760px){
+ header{padding:13px 16px}.layout{display:block;padding:0 12px;margin:16px auto}
+ nav{position:static;margin-bottom:18px;display:flex;overflow-x:auto;gap:4px;padding:8px}
+ .nav-title,.nav-group{display:none}nav button{white-space:nowrap;width:auto;flex:0 0 auto;padding:8px 11px}
+ .card{padding:17px}h1{font-size:22px}.choices{grid-template-columns:1fr}
+ .progress-card{gap:9px}.progress-label{font-size:12px}
+}
+</style>
+</head>
+<body>
+<header><div class="header-inner"><div><div class="brand">食事動作評価</div><div class="subbrand">入力画面のプロトタイプ</div></div><div class="demo">見本用・保存されません</div></div></header>
+<div class="layout">
+<nav aria-label="評価項目ナビゲーション">
+  <div class="nav-title">評価メニュー</div>
+  <div class="nav-group">全体評価</div>
+  <button class="active" data-section="A">A　食事動作全体</button>
+  <div class="nav-group">動作・介助</div>
+  <button data-section="B1">B1　座位姿勢</button><button data-section="B2">B2　つかむ・すくう</button>
+  <button data-section="B3">B3　口まで運ぶ</button><button data-section="B4">B4　食べこぼし</button>
+  <button data-section="B5">B5　見守り・声かけ</button><button data-section="B6">B6　身体的介助</button>
+  <button data-section="B7">B7　中断・注意</button><button data-section="B8">B8　食事時間</button>
+  <div class="nav-group">食事中の観察</div>
+  <button data-section="D1">D1　口から落ちる</button><button data-section="D2">D2　嚥下・拒否</button>
+  <button data-section="D3">D3　むせ・えずき</button><button data-section="D4">D4　摂取率</button>
+  <button data-section="D5">D5　義歯の状態</button>
+  <div class="nav-group">環境情報</div><button data-section="C">C　食事環境</button>
+</nav>
+<main>
+  <div class="intro"><div class="eyebrow">MEAL ACTIVITY ASSESSMENT</div><h1 id="pageTitle">A：食事動作全体の自立度</h1><p id="pageDesc">食事全体を通して、どの程度自分で食べられるかを評価します。</p></div>
+  <div class="progress-card"><span class="progress-label">入力状況（この画面内のみ）</span><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><span class="progress-number" id="progressNumber">0 項目入力済み</span></div>
+
+  <section class="section active" id="section-A" data-title="A：食事動作全体の自立度" data-desc="食事全体を通して、どの程度自分で食べられるかを評価します。">
+    <div class="card"><h2>食事動作全体の自立度</h2><p class="card-desc">最も当てはまるものを1つ選択してください。</p>
+      <div class="field"><div class="field-title">評価段階 <span class="required">必須</span></div><div class="choices">
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>7</strong><small>声かけも手助けもなく、普通の食器で、普通の時間内に食べる</small></span></label>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>6</strong><small>自助具や食事形態の調整、または普通より長い時間が必要だが、声かけ・手助けなしで食べる</small></span></label>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>5</strong><small>自分で食べるが、声かけ・見守り・準備（切る、ほぐすなど）が必要。体には触れない</small></span></label>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>4</strong><small>職員が手を添えたのは食事中のごく一部（1〜2回）。あとは自分で食べる</small></span></label>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>3</strong><small>手を添える手助けが3回以上あるが、自分で食べる部分のほうが多い</small></span></label>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>2</strong><small>手を添える手助けが最初から最後まで必要。自分で食べる部分は半分未満</small></span></label>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>1</strong><small>職員が食べさせる。自分では食具を動かさない、または食べない</small></span></label>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="section" id="section-B1" data-title="B1：座位姿勢の保持" data-desc="姿勢の崩れ方や、姿勢を戻すために必要な支援を記録します。">
+    <div class="card"><h2>座位姿勢の保持</h2><p class="card-desc">観察した状態をそれぞれ選択してください。評価方法は検討中の案です。</p>
+        <p class="card-desc">記録方式は検討中です。A案とB案のどちらが使いやすいか比較するため、両方を表示しています。</p>
+      <div class="field"><div class="field-title">A案：観察項目を個別に選択する方法</div><div class="choices"></div>
+      <div class="field"><div class="field-title">① 支え</div><div class="choices">
+        <label class="choice"><input type="radio" name="B1a">支えなし</label><label class="choice"><input type="radio" name="B1a">物による支え（背もたれ・クッションなど）</label><label class="choice"><input type="radio" name="B1a">人による支え</label><label class="choice"><input type="radio" name="B1a">支えても座位保持が困難</label>
+      </div></div>
+      <div class="field"><div class="field-title">② 声かけ・姿勢の修正</div><div class="choices">
+        <label class="choice"><input type="radio" name="B1b">不要</label><label class="choice"><input type="radio" name="B1b">声かけで自分で直せる</label><label class="choice"><input type="radio" name="B1b">職員による修正が必要</label>
+      </div></div>
+      <div class="field"><div class="field-title">③ 修正回数</div><div class="choices">
+        <label class="choice"><input type="radio" name="B1c">0回</label><label class="choice"><input type="radio" name="B1c">1〜2回</label><label class="choice"><input type="radio" name="B1c">3回以上</label>
+      </div></div>
+      <div class="field"><div class="field-title">④ 姿勢の崩れ方 <span class="optional">複数選択可</span></div><div class="choices">
+        <label class="choice"><input type="checkbox" name="B1d">骨盤が後ろに倒れる</label><label class="choice"><input type="checkbox" name="B1d">右に傾く</label><label class="choice"><input type="checkbox" name="B1d">左に傾く</label><label class="choice"><input type="checkbox" name="B1d">前かがみ</label><label class="choice"><input type="checkbox" name="B1d">崩れなし</label>
+      </div></div>
+      <div class="field"><div class="field-title">B案：5段階評価で選択</div><div class="choices"></div>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>5</strong><small>支えも声かけもなく、食事中ずっと座位を保てる</small></span></label>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>4</strong><small>支えは不要だが、声かけで姿勢を直す場面がある</small></span></label>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>3</strong><small>背もたれ・クッションなど物の支えが必要</small></span></label>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>2</strong><small>人が手で支える、または姿勢を直す必要がある</small></span></label>
+        <label class="choice"><input type="radio" name="A"><span class="choice-text"><strong>1</strong><small>人が支えても座位を保つことが難しい</small></span></label>
+    </div>
+  </section>
+
+  <section class="section" id="section-B2" data-title="B2：食器・道具でつかむ／すくう" data-desc="食具を使って食べ物をつかむ・すくう動作を評価します。">
+    <div class="card"><h2>つかむ・すくう</h2><p class="card-desc">評価段階と、使用した食具を選択してください。</p>
+      <div class="field"><div class="field-title">動作の評価</div><div class="choices">
+        <label class="choice"><input type="radio" name="B2a"><span class="choice-text"><strong>3</strong><small>ほぼ毎回、1回でつかむ・すくうことができる</small></span></label>
+        <label class="choice"><input type="radio" name="B2a"><span class="choice-text"><strong>2</strong><small>失敗することがあるが、やり直せば自分でできる</small></span></label>
+        <label class="choice"><input type="radio" name="B2a"><span class="choice-text"><strong>1</strong><small>自分ではできず、職員の介助が必要</small></span></label>
+      </div></div>
+      <div class="field"><div class="field-title">使用した食具 <span class="optional">複数選択可</span></div><div class="choices">
+        <label class="choice"><input type="checkbox" name="B2b">箸</label><label class="choice"><input type="checkbox" name="B2b">スプーン</label><label class="choice"><input type="checkbox" name="B2b">フォーク</label><label class="choice"><input type="checkbox" name="B2b">手づかみ</label><label class="choice"><input type="checkbox" name="B2b">その他</label><label class="choice"><input type="checkbox" name="B2b">該当なし（本人が食具を使用しない）</label>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="section" id="section-B3" data-title="B3：口まで運ぶ" data-desc="食べ物を口元まで運ぶ動作と、補うための動きを記録します。">
+    <div class="card"><h2>口まで運ぶ</h2><div class="field"><div class="field-title">動作の評価</div><div class="choices">
+      <label class="choice"><input type="radio" name="B3a"><span class="choice-text"><strong>4</strong><small>ほぼ毎回、スムーズに口元まで運べる</small></span></label>
+      <label class="choice"><input type="radio" name="B3a"><span class="choice-text"><strong>3</strong><small>途中で止まる・やり直すことがあるが、自分で運べる</small></span></label>
+      <label class="choice"><input type="radio" name="B3a"><span class="choice-text"><strong>2</strong><small>口元まで運ぶことが難しい場面が多い</small></span></label>
+      <label class="choice"><input type="radio" name="B3a"><span class="choice-text"><strong>1</strong><small>自分では口元まで運べず、職員の介助が必要</small></span></label>
+    </div></div>
+    <div class="field"><div class="field-title">補う動き <span class="optional">複数選択可</span></div><div class="choices">
+      <label class="choice"><input type="checkbox" name="B3b">上体を前に倒して口を近づける</label><label class="choice"><input type="checkbox" name="B3b">頭を前に倒して口を近づける</label><label class="choice"><input type="checkbox" name="B3b">反対の手で食具を持つ手や腕を支える</label><label class="choice"><input type="checkbox" name="B3b">肘や腕をテーブルについて運ぶ</label><label class="choice"><input type="checkbox" name="B3b">その他</label><label class="choice"><input type="checkbox" name="B3b">特になし</label>
+    </div></div></div>
+  </section>
+
+  <section class="section" id="section-B4" data-title="B4：食べこぼし" data-desc="食事中に食べ物をこぼした回数と場面を記録します。">
+    <div class="card"><h2>食べこぼし</h2><div class="field"><div class="field-title">こぼした回数（食事全体）</div><div class="choices">
+      <label class="choice"><input type="radio" name="B4a">なし</label><label class="choice"><input type="radio" name="B4a">1〜2回</label><label class="choice"><input type="radio" name="B4a">3回以上</label>
+    </div></div><div class="field"><div class="field-title">こぼした場面 <span class="optional">複数選択可</span></div><div class="choices">
+      <label class="choice"><input type="checkbox" name="B4b">口に運ぶ途中</label><label class="choice"><input type="checkbox" name="B4b">口元で（口に入れるとき）</label>
+    </div></div></div>
+  </section>
+
+  <section class="section" id="section-B5" data-title="B5：見守り・声かけの必要" data-desc="食事中の見守りの程度と声かけの回数を記録します。">
+    <div class="card"><h2>見守り・声かけの必要</h2><div class="field"><div class="field-title">① 見守りの程度</div><div class="choices">
+      <label class="choice"><input type="radio" name="B5a"><span class="choice-text"><strong>不要</strong><small>職員がそばにいなくても、自分で食事を進められる</small></span></label>
+      <label class="choice"><input type="radio" name="B5a"><span class="choice-text"><strong>ときどき様子を見る必要がある</strong><small>席を離れることはできるが、定期的な確認が必要</small></span></label>
+      <label class="choice"><input type="radio" name="B5a"><span class="choice-text"><strong>食事中ずっと見守る必要がある</strong><small>職員がそばで継続的に見守る必要がある</small></span></label>
+    </div></div><div class="field"><div class="field-title">② 声かけの回数</div><div class="choices">
+      <label class="choice"><input type="radio" name="B5b">なし</label><label class="choice"><input type="radio" name="B5b">1〜2回</label><label class="choice"><input type="radio" name="B5b">3回以上</label>
+    </div></div><div class="note">声かけが必要だった場面・声かけの効果は、追加候補として検討中です。</div></div>
+  </section>
+
+  <section class="section" id="section-B6" data-title="B6：身体的介助の必要" data-desc="どのような身体的介助が、どの程度必要だったかを記録します。">
+    <div class="card"><h2>身体的介助の必要</h2><div class="field"><div class="field-title">① 身体的介助の内容</div><div class="choices">
+      <label class="choice"><input type="radio" name="B6a"><span class="choice-text"><strong>なし</strong><small>体や食具・食器に触れて手助けする必要がない</small></span></label>
+      <label class="choice"><input type="radio" name="B6a"><span class="choice-text"><strong>物への手助けのみ</strong><small>皿を押さえる、食具を手に持たせるなど</small></span></label>
+      <label class="choice"><input type="radio" name="B6a"><span class="choice-text"><strong>手や腕に触れて動作を補助</strong><small>本人の動作中に手や腕に触れて補助する</small></span></label>
+      <label class="choice"><input type="radio" name="B6a"><span class="choice-text"><strong>職員が食べさせる</strong><small>職員が食具を操作し、口元まで運ぶ</small></span></label>
+    </div></div><div class="field"><div class="field-title">② 介助の頻度</div><div class="choices">
+      <label class="choice"><input type="radio" name="B6b">なし</label><label class="choice"><input type="radio" name="B6b">1〜2回</label><label class="choice"><input type="radio" name="B6b">3回以上</label><label class="choice"><input type="radio" name="B6b">食事の最初から最後まで継続的に介助</label>
+    </div></div><div class="field"><div class="field-title">③ 介助が必要だった場面 <span class="optional">複数選択可</span></div><div class="choices">
+      <label class="choice"><input type="checkbox" name="B6c">食べ物をつかむ・すくうとき</label><label class="choice"><input type="checkbox" name="B6c">食具を口元まで運ぶとき</label><label class="choice"><input type="checkbox" name="B6c">食器を押さえるとき</label><label class="choice"><input type="checkbox" name="B6c">その他</label>
+    </div></div><div class="note">食事の準備（小さく切る、ほぐす、蓋を開ける等）や、手を添えた部位は追加候補です。</div></div>
+  </section>
+
+  <section class="section" id="section-B7" data-title="B7：食事が途中で止まる・気が散る" data-desc="食事が止まった回数や、再開に必要だった支援を記録します。">
+    <div class="card"><h2>食事の中断・注意</h2><div class="field"><div class="field-title">① 食事が止まった・注意がそれた回数</div><div class="choices">
+      <label class="choice"><input type="radio" name="B7a">なし</label><label class="choice"><input type="radio" name="B7a">1〜2回</label><label class="choice"><input type="radio" name="B7a">3回以上</label>
+    </div></div><div class="field"><div class="field-title">② 止まり方 <span class="optional">追加候補・複数選択可</span></div><div class="choices">
+      <label class="choice"><input type="checkbox" name="B7b">食具を持ったまま止まる</label><label class="choice"><input type="checkbox" name="B7b">食具を置いて止まる</label><label class="choice"><input type="checkbox" name="B7b">周囲の人や物を見る・話しかける</label><label class="choice"><input type="checkbox" name="B7b">目を閉じる、眠そうな様子が見られる</label><label class="choice"><input type="checkbox" name="B7b">席を立とうとする</label><label class="choice"><input type="checkbox" name="B7b">その他</label>
+    </div></div><div class="field"><div class="field-title">③ 止まったあとの再開方法 <span class="optional">追加候補</span></div><div class="choices">
+      <label class="choice"><input type="radio" name="B7c">自分で再開できた</label><label class="choice"><input type="radio" name="B7c">声かけで再開した</label><label class="choice"><input type="radio" name="B7c">職員が手を添えて再開した</label><label class="choice"><input type="radio" name="B7c">再開できずに食事が終わった</label>
+    </div></div></div>
+  </section>
+
+  <section class="section" id="section-B8" data-title="B8：食事にかかる時間" data-desc="食事開始から終了までの時間を区分して記録します。">
+    <div class="card"><h2>食事にかかる時間</h2><div class="field"><div class="field-title">食事にかかった時間</div><div class="choices">
+      <label class="choice"><input type="radio" name="B8">15分未満</label><label class="choice"><input type="radio" name="B8">15〜30分</label><label class="choice"><input type="radio" name="B8">30〜45分</label><label class="choice"><input type="radio" name="B8">45分以上</label>
+    </div><div class="note">実際に運用する際は、食事開始・終了の定義を施設内で統一する必要があります。</div></div></div>
+  </section>
+
+  <section class="section" id="section-D1" data-title="D1：口から食べ物が落ちる" data-desc="口に入った食べ物が落ちた回数と、噛んでいるときの口の状態を記録します。">
+    <div class="card"><h2>口から食べ物が落ちる</h2><div class="field"><div class="field-title">① 口に入った食べ物が落ちた回数 <span class="required">必須</span></div><div class="choices">
+      <label class="choice"><input type="radio" name="D1a">なし</label><label class="choice"><input type="radio" name="D1a">1〜2回</label><label class="choice"><input type="radio" name="D1a">3回以上</label>
+    </div></div><div class="field"><div class="field-title">② 噛んでいるときの口の状態</div><div class="choices">
+      <label class="choice"><input type="radio" name="D1b">口を閉じて噛んでいる</label><label class="choice"><input type="radio" name="D1b">ときどき口が開く</label><label class="choice"><input type="radio" name="D1b">口を開けたまま噛んでいることが多い</label><label class="choice"><input type="radio" name="D1b">判断できない</label>
+    </div></div></div>
+  </section>
+
+  <section class="section" id="section-D2" data-title="D2：飲み込む様子・食べることの拒否" data-desc="飲み込む様子が確認できたか、拒む行動があったかを記録します。">
+    <div class="card"><h2>飲み込む様子・食べることの拒否</h2><div class="field"><div class="field-title">① 飲み込む様子の確認状況</div><div class="choices">
+      <label class="choice"><input type="radio" name="D2a">毎回確認できた</label><label class="choice"><input type="radio" name="D2a">確認できないことがあった</label><label class="choice"><input type="radio" name="D2a">ほとんど確認できなかった</label><label class="choice"><input type="radio" name="D2a">評価者の位置などの理由で確認できなかった</label>
+    </div></div><div class="field"><div class="field-title">② 拒む行動の回数</div><div class="choices">
+      <label class="choice"><input type="radio" name="D2b">なし</label><label class="choice"><input type="radio" name="D2b">1〜2回</label><label class="choice"><input type="radio" name="D2b">3回以上</label>
+    </div></div></div>
+  </section>
+
+  <section class="section" id="section-D3" data-title="D3：むせ・えずき" data-desc="むせ・えずき等の発生回数と、起きた場面を記録します。">
+    <div class="card"><h2>むせ・えずき</h2><div class="field"><div class="field-title">① むせ・えずき・嘔吐の回数</div><div class="choices">
+      <label class="choice"><input type="radio" name="D3a"><span class="choice-text"><strong>なし</strong><small>観察中に発生しなかった</small></span></label><label class="choice"><input type="radio" name="D3a"><span class="choice-text"><strong>1〜2回</strong><small>発生が1〜2回</small></span></label><label class="choice"><input type="radio" name="D3a"><span class="choice-text"><strong>3回以上</strong><small>発生が3回以上</small></span></label>
+    </div><div class="note">連続した咳き込みを1回のエピソードとするなど、「1回」の数え方は施設内で統一する想定です。</div></div><div class="field"><div class="field-title">② 起きた場面 <span class="optional">複数選択可</span></div><div class="choices">
+      <label class="choice"><input type="checkbox" name="D3b">食べ物を口に入れた直後</label><label class="choice"><input type="checkbox" name="D3b">噛んでいる間</label><label class="choice"><input type="checkbox" name="D3b">飲み込んだ直後</label><label class="choice"><input type="checkbox" name="D3b">飲み物・汁物を口にしたとき</label><label class="choice"><input type="checkbox" name="D3b">食事の後半</label><label class="choice"><input type="checkbox" name="D3b">その他・不明</label>
+    </div></div></div>
+  </section>
+
+  <section class="section" id="section-D4" data-title="D4：食事摂取量（摂取率）" data-desc="食べた量を割合で記録する案です。A案・B案を比較できます。">
+    <div class="card"><h2>食事摂取量（摂取率）</h2><p class="card-desc">記録方式は検討中です。A案とB案のどちらが使いやすいか比較するため、両方を表示しています。</p>
+      <div class="field"><div class="field-title">A案：食事の種類ごとに記録</div><div class="choices">
+        <label class="choice"><input type="radio" name="D4a">主食：10割</label><label class="choice"><input type="radio" name="D4a">主食：7〜9割</label><label class="choice"><input type="radio" name="D4a">主食：4〜6割</label><label class="choice"><input type="radio" name="D4a">主食：1〜3割</label><label class="choice"><input type="radio" name="D4a">主食：0割</label>
+      </div><div class="choices" style="margin-top:8px">
+        <label class="choice"><input type="radio" name="D4b">副食：10割</label><label class="choice"><input type="radio" name="D4b">副食：7〜9割</label><label class="choice"><input type="radio" name="D4b">副食：4〜6割</label><label class="choice"><input type="radio" name="D4b">副食：1〜3割</label><label class="choice"><input type="radio" name="D4b">副食：0割</label>
+      </div><div class="choices" style="margin-top:8px">
+        <label class="choice"><input type="radio" name="D4c">汁物：10割</label><label class="choice"><input type="radio" name="D4c">汁物：7〜9割</label><label class="choice"><input type="radio" name="D4c">汁物：4〜6割</label><label class="choice"><input type="radio" name="D4c">汁物：1〜3割</label><label class="choice"><input type="radio" name="D4c">汁物：0割</label><label class="choice"><input type="radio" name="D4c">汁物：提供なし</label>
+      </div><div class="choices" style="margin-top:8px">
+        <label class="choice"><input type="radio" name="D4d">水分：10割</label><label class="choice"><input type="radio" name="D4d">水分：7〜9割</label><label class="choice"><input type="radio" name="D4d">水分：4〜6割</label><label class="choice"><input type="radio" name="D4d">水分：1〜3割</label><label class="choice"><input type="radio" name="D4d">水分：0割</label><label class="choice"><input type="radio" name="D4d">水分：提供なし</label>
+      </div></div>
+      <div class="field"><div class="field-title">B案：食事全体の摂取量</div><div class="choices">
+        <label class="choice"><input type="radio" name="D4e">全量（ほぼ10割）</label><label class="choice"><input type="radio" name="D4e">約3/4</label><label class="choice"><input type="radio" name="D4e">約1/2</label><label class="choice"><input type="radio" name="D4e">約1/4</label><label class="choice"><input type="radio" name="D4e">ほとんど食べない（1割以下）</label>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="section" id="section-D5" data-title="D5：義歯の有無・状態" data-desc="義歯の使用状況、食事中の装着状況、痛み・違和感を記録します。">
+    <div class="card"><h2>義歯の有無・状態</h2><div class="field"><div class="field-title">① 義歯の使用状況</div><div class="choices">
+      <label class="choice"><input type="radio" name="D5a">使用している</label><label class="choice"><input type="radio" name="D5a">使用していない</label><label class="choice"><input type="radio" name="D5a">不明・確認できない</label>
+    </div></div><div class="field"><div class="field-title">② 食事中の義歯の装着状況</div><div class="choices">
+      <label class="choice"><input type="radio" name="D5b">装着している</label><label class="choice"><input type="radio" name="D5b">一部のみ装着している</label><label class="choice"><input type="radio" name="D5b">義歯を使用しているが、食事中は外している</label><label class="choice"><input type="radio" name="D5b">不明・確認できない</label>
+    </div></div><div class="field"><div class="field-title">③ 装着時の痛み・違和感</div><div class="choices">
+      <label class="choice"><input type="radio" name="D5c">なし</label><label class="choice"><input type="radio" name="D5c">あり</label><label class="choice"><input type="radio" name="D5c">不明・本人に確認できない</label>
+    </div></div></div>
+  </section>
+
+  <section class="section" id="section-C" data-title="C：食事環境" data-desc="食事環境に関する情報を記録します。選択肢は施設の運用に合わせて調整する想定です。">
+    <div class="card"><h2>食事環境</h2><p class="card-desc">C項目は状態の記録が中心です。以下は選択肢をそろえるための見本です。</p>
+      <div class="field"><div class="field-title">C1：机・椅子の高さ・配置</div><div class="choices">
+        <label class="choice"><input type="radio" name="C1">適切な高さ・配置</label><label class="choice"><input type="radio" name="C1">調整あり</label><label class="choice"><input type="radio" name="C1">評価困難</label>
+      </div></div><div class="field"><div class="field-title">C2：食形態</div><input class="text-input" placeholder="施設で使用している食形態区分を記入・選択"></div>
+      <div class="field"><div class="field-title">C3：座席の種類</div><div class="choices">
+        <label class="choice"><input type="radio" name="C3">車いす</label><label class="choice"><input type="radio" name="C3">椅子</label><label class="choice"><input type="radio" name="C3">その他</label>
+    </div>
+  </section>
+
+  <div class="actions"><button class="btn" id="prevBtn">← 前の項目</button><button class="btn primary" id="nextBtn">次の項目 →</button></div>
+  <div class="summary">これは画面構成を確認するための見本です。入力内容はサーバーに送信・保存されません。ページを再読み込みすると選択内容はリセットされます。</div>
+</main>
+</div>
+<footer>食事動作評価プロトタイプ｜項目・選択肢は検討中の案を含みます</footer>
+<script>
+const buttons=[...document.querySelectorAll('nav button[data-section]')];
+const sections=[...document.querySelectorAll('.section')];
+let current='A';
+function show(id){
+ current=id;
+ sections.forEach(s=>s.classList.toggle('active',s.id==='section-'+id));
+ buttons.forEach(b=>b.classList.toggle('active',b.dataset.section===id));
+ const sec=document.getElementById('section-'+id);
+ document.getElementById('pageTitle').textContent=sec.dataset.title;
+ document.getElementById('pageDesc').textContent=sec.dataset.desc;
+ document.getElementById('prevBtn').disabled=buttons.findIndex(b=>b.dataset.section===id)===0;
+ document.getElementById('nextBtn').disabled=buttons.findIndex(b=>b.dataset.section===id)===buttons.length-1;
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+buttons.forEach(b=>b.addEventListener('click',()=>show(b.dataset.section)));
+document.getElementById('prevBtn').addEventListener('click',()=>{
+ const i=buttons.findIndex(b=>b.dataset.section===current); if(i>0) show(buttons[i-1].dataset.section);
+});
+document.getElementById('nextBtn').addEventListener('click',()=>{
+ const i=buttons.findIndex(b=>b.dataset.section===current); if(i<buttons.length-1) show(buttons[i+1].dataset.section);
+});
+function updateProgress(){
+ const names=new Set();
+ document.querySelectorAll('input[type=radio]:checked,input[type=checkbox]:checked').forEach(el=>names.add(el.name));
+ const count=names.size;
+ document.getElementById('progressNumber').textContent=count+' 項目入力済み';
+ document.getElementById('progressFill').style.width=Math.min(100,count/18*100)+'%';
+}
+document.addEventListener('change',updateProgress);
+show('A'); updateProgress();
+</script>
+</body>
+</html>
